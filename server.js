@@ -6,10 +6,11 @@ const bodyParser = require('body-parser')
 const env = require('dotenv').load();
 const exphbs = require('express-handlebars')
 
+const epilogue = require('epilogue');
+
+
 //For BodyParser
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // For Passport
@@ -23,11 +24,11 @@ var setUserMiddleware = require('./app/middleware').setUser;
 app.use(setUserMiddleware);
 
 //For Handlebars
-app.set('views', './app/views')
-app.engine('hbs', exphbs({
-    extname: '.hbs'
-}));
-app.set('view engine', '.hbs');
+// app.set('views', './app/views')
+// app.engine('hbs', exphbs({
+//     extname: '.hbs'
+// }));
+// app.set('view engine', '.hbs');
 
 app.get('/', (req, res) => {
     res.send('Welcome to Passport with Sequelize');
@@ -41,6 +42,24 @@ var authRoutes = require('./app/routes/authRoutes')(app);
 var usersRoutes = require('./app/routes/usersRoutes')(app);
 
 var todosRoute = require('./app/routes/todos.js')(app);
+
+// Initialize epilogue
+epilogue.initialize({
+  app: app,
+  sequelize: models.sequelize
+});
+
+// Create REST resource
+var documentResource = epilogue.resource({
+  model: models.Document,
+  endpoints: ['/documents', '/documents/:id']
+});
+
+var tagResource = epilogue.resource({
+    model: models.Tag,
+    engpoints: ['/tags', '/tag/:/id']
+});
+
 
 //Sync Database
 models.sequelize.sync({

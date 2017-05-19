@@ -22,6 +22,13 @@ module.exports = (models) => {
                 phone: '111-11-11',
                 bornAt: new Date('01-01-1980 12:00'),
                 isAdmin: false
+            }),
+
+            models.User.create({
+                fullname: "Mr Administrator",
+                phone: '921',
+                bornAt: new Date('08-03-1991 12:00'),
+                isAdmin: true
             })
 
         ]).then((users) => {
@@ -40,6 +47,12 @@ module.exports = (models) => {
                     UserId: 2 // ???
                 }),
 
+               models.LocalUser.create({
+                    username: 'admin',
+                    password: hash('admin'),
+                    UserId: 3 // ???
+                }),
+
                 models.Todo.create({
                     title: "The Title 1",
                     UserId: 1
@@ -47,7 +60,25 @@ module.exports = (models) => {
                 models.Todo.create({
                     title: "The Title 2",
                     UserId: 1
+                }),
+                // ---------------------
+                models.Document.create({
+                    name: 'My Homework',
+                    file: 'bla bla',
+                    mime: 'text/plain',
+                    size: 128
+                }),
+
+                models.Tag.create({
+                    name: 'work',
+                    rating: 0
+                }),
+
+                models.Tag.create({
+                    name: 'music',
+                    rating: 0
                 })
+
             ])
         })
         .then(instances => {

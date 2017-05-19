@@ -1,11 +1,10 @@
-
 var authController = require('../controllers/authController.js');
- 
+
 module.exports = (app) => {
 
     app.post('/signup', authController.signup);
-    app.post('/auth/signup', authController.signup);    
-    
+    app.post('/auth/signup', authController.signup);
+
     app.post('/login', authController.login);
     app.post('/auth/signin', authController.login);
 
@@ -13,4 +12,11 @@ module.exports = (app) => {
     app.delete('/auth/signout', authController.logout);
 
     app.get('/auth/check', authController.check);
+
+    app.put('/localusers/:id',
+        // (req, res, next) => {
+        //     next();
+        // },
+        authController.update);
 }
+
