@@ -46,3 +46,17 @@ exports.listDeleted = (req, res) => {
         return res.json(docs);
     })
 }
+
+exports.addTag = (req, res) => {
+
+    return models.Document.findById(req.params.id)
+    .then (doc => {
+        return models.Tag.create(req.body)
+        .then(tag => {
+            return doc.addTag(tag)
+            .then(() => {
+                return res.json(tag);
+            });
+        });
+    }).catch(e => console.log(e));
+}

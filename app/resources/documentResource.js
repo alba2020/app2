@@ -1,3 +1,4 @@
+
 module.exports = (epilogue, models) => {
     var documentResource = epilogue.resource({
         model: models.Document,
@@ -30,7 +31,29 @@ module.exports = (epilogue, models) => {
             });
     });
 
-    documentResource.all.auth(require('../middleware').resourceRequiresLogin);
+    documentResource.all.send.before((req, res, context) => {
 
+        return models.DocumentView.create({
+            DocumentId: req.params.id,
+            creatorId: req.user.id
+        }).then(view => {
+
+            return context.continue;
+
+            // var currentDoc = null;
+            // models.Document.findById(req.params.id).then(doc => {
+            //     if(!doc) 
+            //         return context.continue;
+            //     currentDoc = doc;
+            //     models.User.findById(req.user.id).then(user => {
+            //         currentDoc.addViewer(user);
+            //         return context.continue;
+            //     })
+            // })
+        });
+    });
+
+    documentResource.all.auth(require('../middleware').resourceRequiresLogin);
     return documentResource;
+
 }

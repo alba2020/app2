@@ -127,6 +127,20 @@ module.exports = (models) => {
         })
         .then(instances => {
             // console.log('Instances seeded: ', instances.length);
+          return Promise.all([
+                models.Todo.create({
+                    title: 'todo1',
+                    complete: false
+                }),
+                models.Todo.create({
+                    title: 'todo2',
+                    complete: false
+                }),
+                models.Todo.create({
+                    title: 'todo3',
+                    complete: false
+                })
+            ])
         })
         .catch(e => console.log('Could not seed database', e));
 }

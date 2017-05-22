@@ -29,14 +29,26 @@ module.exports = (connection, Sequelize) => {
         },
         // options
         {
-             classMethods: {
-                 associate: function(models) {
-                     User.hasOne(models.LocalUser);
-                     User.hasMany(models.Document, { foreignKey: 'creatorId'});
-                     User.hasMany(models.Comment, { foreignKey: 'creatorId'});
-                     User.hasMany(models.Tag, { foreignKey: 'creatorId'});
-                 }
-             },
+            classMethods: {
+                associate: function (models) {
+                    User.hasOne(models.LocalUser);
+                    User.hasMany(models.Document, {
+                        foreignKey: 'creatorId'
+                    });
+                    User.hasMany(models.Comment, {
+                        foreignKey: 'creatorId'
+                    });
+                    User.hasMany(models.Tag, {
+                        foreignKey: 'creatorId'
+                    });
+                    User.hasMany(models.DocumentView, { foreignKey: 'creatorId' });
+                    // User.belongsToMany(models.Document, {
+                    //     as: 'ViewedDocuments',
+                    //     through: 'DocumentViews',
+                    //     foreignKey: 'creatorId'
+                    // });
+                }
+            },
 
             paranoid: true
         }

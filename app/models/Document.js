@@ -27,6 +27,13 @@ module.exports = (connection, Sequelize) => {
                      Document.belongsToMany(models.Tag, { through: 'DocumentTags' });
                      Document.belongsTo( models.User, { as: 'creator'} );
                      Document.belongsToMany(models.Comment, {through: 'DocumentComments'});
+                     Document.hasMany(models.DocumentView);
+                    //  Document.belongsToMany(models.User,
+                    //  {
+                    //      as: 'Viewers',
+                    //      through: 'DocumentViews',
+                    //      foreignKey: 'documentId'
+                    // });
                  }
              },
 
