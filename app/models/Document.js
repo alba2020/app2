@@ -25,6 +25,8 @@ module.exports = (connection, Sequelize) => {
              classMethods: {
                  associate: function(models) {
                      Document.belongsToMany(models.Tag, { through: 'DocumentTags' });
+                     Document.belongsTo( models.User, { as: 'creator'} );
+                     Document.belongsToMany(models.Comment, {through: 'DocumentComments'});
                  }
              },
 

@@ -47,28 +47,18 @@ module.exports = (models) => {
                     UserId: 2 // ???
                 }),
 
-               models.LocalUser.create({
+                models.LocalUser.create({
                     username: 'admin',
                     password: hash('admin'),
                     UserId: 3 // ???
-                }),
+                })
 
-                models.Todo.create({
-                    title: "The Title 1",
-                    UserId: 1
-                }),
-                models.Todo.create({
-                    title: "The Title 2",
-                    UserId: 1
-                }),
-                // ---------------------
-                models.Document.create({
-                    name: 'My Homework',
-                    file: 'bla bla',
-                    mime: 'text/plain',
-                    size: 128
-                }),
+            ])
+        })
+        .then(instances => {
+            console.log('Instances seeded: ', instances.length);
 
+            return Promise.all([
                 models.Tag.create({
                     name: 'work',
                     rating: 0
@@ -79,10 +69,80 @@ module.exports = (models) => {
                     rating: 0
                 })
 
-            ])
+            ]);
+
+        })
+        .then((tags) => {
+            var tag1 = tags[0];
+            var tag2 = tags[1];
+
+            // console.log(tag1.dataValues);
+
+            return models.Document.create({
+                name: 'My Homework',
+                file: 'bla bla',
+                mime: 'text/plain',
+                size: 128,
+                creatorId: 1
+            }).then(doc => {
+                return Promise.all([
+                    doc.addTag(tag1),
+                    doc.addTag(tag2)
+                ]);
+
+            }).then(() => {
+                return models.Document.create({
+                    name: 'My Work',
+                    file: 'bla',
+                    mime: 'text/plain',
+                    size: 128,
+                    creatorId: 1
+                })
+            });
         })
         .then(instances => {
-            console.log('Instances seeded: ', instances.length);
+             console.log('Instances seeded: ', instances.length);
+
+             return Promise.all([
+                models.Comment.create({
+                    text: 'Very good document!'
+                }),
+
+                models.Comment.create({
+                    text: 'Another comment'
+                }),
+
+                models.Comment.create({
+                    text: 'Yes!'
+                })
+            ]).then((comments => {
+                var cs = comments;
+                models.Document.findById(1).then(doc => {
+                    doc.addComment(cs[0]);
+                    doc.addComment(cs[1]);
+                    doc.addComment(cs[2]);
+                })
+            }));
+
+        })
+        .then(instances => {
+            // console.log('Instances seeded: ', instances.length);
         })
         .catch(e => console.log('Could not seed database', e));
 }
+
+    // console.log('1111111111111')
+    // return models.LocalUser.findOne({
+    //     where: {
+    //         username: 'paul'
+    //     },
+    //     include: [models.User]
+    // }).then(localUser => {
+    //     if (localUser) {
+    //         console.log('user found')
+    //         console.log('username: ', localUser.username);
+    //         console.log('fullname: ', localUser.User.fullname);
+    //     } else {
+    //         console.log('user not found')
+    //     }
+    // })

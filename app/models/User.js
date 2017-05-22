@@ -32,6 +32,9 @@ module.exports = (connection, Sequelize) => {
              classMethods: {
                  associate: function(models) {
                      User.hasOne(models.LocalUser);
+                     User.hasMany(models.Document, { foreignKey: 'creatorId'});
+                     User.hasMany(models.Comment, { foreignKey: 'creatorId'});
+                     User.hasMany(models.Tag, { foreignKey: 'creatorId'});
                  }
              },
 

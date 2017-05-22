@@ -5,6 +5,6 @@ var requireLogin = require('../middleware').requireLogin;
 
 module.exports = (app) => {
 
-    app.get('/users', requireLogin, usersController.list);
+    // app.get('/users', requireLogin, usersController.list);
 
 }
