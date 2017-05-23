@@ -1,3 +1,6 @@
+
+// for testing
+
 module.exports = (epilogue, models) => {
     var tagResource = epilogue.resource({
         model: models.Tag,

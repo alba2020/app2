@@ -1,4 +1,6 @@
 
+// for testing
+
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var Todo = sequelize.define('Todo',
