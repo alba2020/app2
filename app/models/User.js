@@ -24,7 +24,10 @@ module.exports = (connection, Sequelize) => {
             isAdmin: {
                 type: Sequelize.BOOLEAN,
                 default: false
-            }
+            },
+
+            avatarId: Sequelize.INTEGER,
+            headerId: Sequelize.INTEGER
 
         },
         // options
@@ -41,17 +44,26 @@ module.exports = (connection, Sequelize) => {
                     User.hasMany(models.Tag, {
                         foreignKey: 'creatorId'
                     });
-                    User.hasMany(models.DocumentView, { foreignKey: 'creatorId' });
+                    User.hasMany(models.DocumentView, {
+                        foreignKey: 'creatorId'
+                    });
                     // User.belongsToMany(models.Document, {
                     //     as: 'ViewedDocuments',
                     //     through: 'DocumentViews',
                     //     foreignKey: 'creatorId'
                     // });
                     //User.belongsTo(models.Document, {
-                        //as: 'avatar',
-                        //foreignKey : 'avatarId'
+                    //as: 'avatar',
+                    //foreignKey : 'avatarId'
                     //});
                 }
+            },
+
+            instanceMethods: {
+                getAvatar: function (models, onSuccess, onError) {
+                    models.Document.findById(this.avatarId)
+                        .then(onSuccess).catch(onError);
+                },
             },
 
             paranoid: true

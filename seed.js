@@ -14,7 +14,8 @@ module.exports = (models) => {
                 fullname: "John O'Reilly",
                 phone: '555-55-55',
                 bornAt: new Date('04-12-1961 12:00'),
-                isAdmin: false
+                isAdmin: false,
+                avatarId: 1
             }),
 
             models.User.create({
@@ -141,6 +142,14 @@ module.exports = (models) => {
                     complete: false
                 })
             ])
+        })
+        .then(() => {
+            // models.User.findById(1).then(user => {
+            //     user.getAvatar(models, (avatar) => {
+            //         console.log(avatar.dataValues);
+            //     });
+                
+            // })
         })
         .catch(e => console.log('Could not seed database', e));
 }

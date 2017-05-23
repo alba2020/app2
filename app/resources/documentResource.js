@@ -32,7 +32,9 @@ module.exports = (epilogue, models) => {
     });
 
     documentResource.all.send.before((req, res, context) => {
-
+        // console.log('----------- hook ---------')
+        // console.log(res.body);
+        // console.log(res);
         return models.DocumentView.create({
             DocumentId: req.params.id,
             creatorId: req.user.id
