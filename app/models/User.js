@@ -47,6 +47,10 @@ module.exports = (connection, Sequelize) => {
                     //     through: 'DocumentViews',
                     //     foreignKey: 'creatorId'
                     // });
+                    //User.belongsTo(models.Document, {
+                        //as: 'avatar',
+                        //foreignKey : 'avatarId'
+                    //});
                 }
             },
 
